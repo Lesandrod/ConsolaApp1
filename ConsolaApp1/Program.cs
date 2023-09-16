@@ -25,16 +25,17 @@ class Program
                 $"FechaNac: {lista.FechaNacimiento}");
         }
 
-       
+        ListarTrabajadoresDAT();
+
+
 
 
 
 
     }
-    private static DataTable ListarTrabajadoresDataTable()
+    private static DataTable  ListarTrabajadoresDAT()
     {
-        // Crear un DataTable para almacenar los resultados
-        DataTable dataTable = new DataTable();
+        DataTable dataTable;
         // Crear una conexión a la base de datos
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
@@ -47,16 +48,29 @@ class Program
             // Crear un adaptador de datos
             SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
 
+            // Crear un DataTable para almacenar los resultados
+             dataTable = new DataTable();
 
             // Llenar el DataTable con los datos de la consulta
             adapter.Fill(dataTable);
 
+            // Mostrar los datos en la consola
+            foreach (DataRow row in dataTable.Rows)
+            {
+                Console.WriteLine($"ID: {row["idTrabajador"]}");
+                Console.WriteLine($"Nombres: {row["Nombres"]}");
+                Console.WriteLine($"Apellidos: {row["Apellidos"]}");
+                Console.WriteLine($"Sueldo: {row["Sueldo"]}");
+                Console.WriteLine($"Fecha de Nacimiento: {row["FechaNacimiento"]}");
+                Console.WriteLine();
+            }
+
             // Cerrar la conexión
             connection.Close();
-
         }
         return dataTable;
     }
+
     //De forma conectada
     private static List<Trabajador> ListarTrabajadores()
     {
