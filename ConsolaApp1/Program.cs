@@ -15,8 +15,47 @@ class Program
     static void Main()
     {
 
-       List<Trabajador> trabajadores = new ; 
-        
+       List<Trabajador> trabajadores = ListarTrabajadores() ;
+        foreach(var lista in trabajadores)
+        {
+            Console.WriteLine($"ID: {lista.idTrabajador}," +
+                $" Nombre: {lista.Nombres}, " +
+                $"+Apellido: {lista.Apellidos} ," +
+                $" Sueldo: {lista.Sueldo}, " +
+                $"FechaNac: {lista.FechaNacimiento}");
+        }
+
+       
+
+
+
+
+    }
+    private static DataTable ListarTrabajadoresDataTable()
+    {
+        // Crear un DataTable para almacenar los resultados
+        DataTable dataTable = new DataTable();
+        // Crear una conexión a la base de datos
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            // Abrir la conexión
+            connection.Open();
+
+            // Consulta SQL para seleccionar datos
+            string query = "SELECT * FROM Trabajadores";
+
+            // Crear un adaptador de datos
+            SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+
+
+            // Llenar el DataTable con los datos de la consulta
+            adapter.Fill(dataTable);
+
+            // Cerrar la conexión
+            connection.Close();
+
+        }
+        return dataTable;
     }
     //De forma conectada
     private static List<Trabajador> ListarTrabajadores()
